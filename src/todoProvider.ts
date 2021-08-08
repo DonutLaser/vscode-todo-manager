@@ -1,40 +1,30 @@
 import * as vscode from 'vscode';
 
-export class TodoProvider implements vscode.TreeDataProvider<Todo> {
-    constructor(todos: Todo[], private workspaceRoot?: string) { }
+export class TodoProvider implements vscode.TreeDataProvider<CustomTreeItem> {
+    constructor(private root: CustomTreeItem[], private workspaceRoot?: string) { }
 
-    getTreeItem(element: Todo): vscode.TreeItem {
-        return element;
+    getTreeItem(element: CustomTreeItem): vscode.TreeItem {
+        return new vscode.TreeItem(
+            element.label,
+            element.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None,
+        );
     }
 
-    getChildren(element?: Todo): Thenable<Todo[]> {
+    getChildren(element?: CustomTreeItem): Thenable<CustomTreeItem[]> {
         if (!this.workspaceRoot) {
             vscode.window.showInformationMessage('No TODO items in empty workspace');
             return Promise.resolve([]);
         }
 
-        if (!element) {
-            return Promise.resolve([
-                new Todo('@TODO (Important)', vscode.TreeItemCollapsibleState.Expanded, false),
-                new Todo('@TODO', vscode.TreeItemCollapsibleState.Collapsed, false),
-            ]);
-        }
-
-        if (element.isTodo) {
-            return Promise.resolve([]);
-        }
-
-        return Promise.resolve([]);
+        if (!element) { return Promise.resolve(this.root); }
+        return Promise.resolve(element.children);
     }
 }
 
-export class Todo extends vscode.TreeItem {
+export class CustomTreeItem {
     constructor(
-        public readonly label: string,
-        public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-        public isTodo: boolean,
+        public label: string,
+        public children: CustomTreeItem[],
     ) {
-        super(label, collapsibleState);
-        this.description = 'some kind of todo monster';
     }
 }
