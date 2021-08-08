@@ -40,13 +40,15 @@ async function parseFile(filepath: string): Promise<ParseResult> {
 
     const result: ParseResult = { important: [], regular: [] };
 
-    for (const line of lines) {
+    for (const [index, line] of lines.entries()) {
         if (!line.includes('@TODO')) { continue; }
 
         if (line.includes('!important')) {
-            result.important.push(new CustomTreeItem(line, []));
+            const item = new CustomTreeItem(line.replace('// @TODO (!important)', '').trim(), [], `Line: ${index + 1}`);
+            result.important.push(item);
         } else {
-            result.regular.push(new CustomTreeItem(line, []));
+            const item = new CustomTreeItem(line.replace('// @TODO', '').trim(), [], `Line: ${index + 1}`);
+            result.regular.push(item);
         }
     }
 

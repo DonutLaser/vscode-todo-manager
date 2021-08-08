@@ -4,10 +4,13 @@ export class TodoProvider implements vscode.TreeDataProvider<CustomTreeItem> {
     constructor(private root: CustomTreeItem[], private workspaceRoot?: string) { }
 
     getTreeItem(element: CustomTreeItem): vscode.TreeItem {
-        return new vscode.TreeItem(
+        const item = new vscode.TreeItem(
             element.label,
             element.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None,
         );
+
+        item.description = element.description;
+        return item;
     }
 
     getChildren(element?: CustomTreeItem): Thenable<CustomTreeItem[]> {
@@ -25,6 +28,7 @@ export class CustomTreeItem {
     constructor(
         public label: string,
         public children: CustomTreeItem[],
+        public description?: string,
     ) {
     }
 }

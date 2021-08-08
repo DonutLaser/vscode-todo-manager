@@ -10,21 +10,25 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:todos.open"
+		"onView:todos"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
-		"commands": [
-			{
-				"command": "todos.open",
-				"title": "Open TODO manager"
-			}
-		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "todo-manager",
+					"title": "TODO Items",
+					"icon": "media/checklist.svg"
+				}
+			]
+		},
 		"views": {
-			"explorer": [
+			"todo-manager": [
 				{
 					"id": "todos",
-					"name": "TODO Items"
+					"name": "TODO Items",
+					"contextualTitle": "TODO Items"
 				}
 			]
 		}
