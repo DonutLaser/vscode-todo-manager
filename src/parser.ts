@@ -3,7 +3,8 @@ import * as path from 'path';
 import { TextDecoder } from 'util';
 import { CustomTreeItem } from './todoProvider';
 
-const IGNORE_FOLDERS = ['.git', '.vscode', 'node_modules'];
+const IGNORE_FOLDERS = ['.git', '.vscode', 'node_modules']; // @TODO (!important) have setting for this
+const SUPPORTED_FILES = ['.ts', '.js', '.go', '.svelte']; // @TODO (!important) have settings for the extension to set these to whatever you want
 
 interface ParseResult {
     important: CustomTreeItem[];
@@ -18,11 +19,11 @@ async function getAllFilesInWorkspace(workspace: string): Promise<string[]> {
     while (directories.length > 0) {
         const files = await vscode.workspace.fs.readDirectory(directories[0]);
         for (const f of files) {
-            if (f[1] === vscode.FileType.File) {
-                result.push(path.join(workspace, f[0]));
+            if (f[1] === vscode.FileType.File && SUPPORTED_FILES.includes(path.extname(f[0]))) {
+                result.push(path.join(directories[0].fsPath, f[0]));
             } else if (f[1] === vscode.FileType.Directory) {
                 if (!IGNORE_FOLDERS.includes(f[0])) {
-                    directories.push(vscode.Uri.file(path.join(workspace, f[0])));
+                    directories.push(vscode.Uri.file(path.join(directories[0].fsPath, f[0])));
                 }
             }
         }
