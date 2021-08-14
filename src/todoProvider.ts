@@ -9,7 +9,11 @@ export class TodoProvider implements vscode.TreeDataProvider<CustomTreeItem> {
             element.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None,
         );
 
-        item.description = element.description;
+        if (element.line || element.line === 0) {
+            item.description = `Line: ${element.line}`;
+            item.command = element.command;
+        }
+
         return item;
     }
 
@@ -28,7 +32,8 @@ export class CustomTreeItem {
     constructor(
         public label: string,
         public children: CustomTreeItem[],
-        public description?: string,
+        public line?: number,
+        public command?: vscode.Command,
     ) {
     }
 }

@@ -45,10 +45,20 @@ async function parseFile(filepath: string): Promise<ParseResult> {
         if (!line.includes('@TODO')) { continue; }
 
         if (line.includes('!important')) {
-            const item = new CustomTreeItem(line.replace('// @TODO (!important)', '').trim(), [], `Line: ${index + 1}`);
+            const item = new CustomTreeItem(
+                line.replace('// @TODO (!important)', '').trim(),
+                [],
+                index + 1,
+                { title: "Show in editor", command: 'todos.show', arguments: [filepath, index] }
+            );
             result.important.push(item);
         } else {
-            const item = new CustomTreeItem(line.replace('// @TODO', '').trim(), [], `Line: ${index + 1}`);
+            const item = new CustomTreeItem(
+                line.replace('// @TODO', '').trim(),
+                [],
+                index + 1,
+                { title: "Show in editor", command: 'todos.show', arguments: [filepath, index] }
+            );
             result.regular.push(item);
         }
     }
