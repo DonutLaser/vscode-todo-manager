@@ -2,6 +2,9 @@ import * as vscode from 'vscode';
 import { TodoProvider } from './todoProvider';
 import { parseTodos } from './parser';
 
+// @TODO (!important) write a normal readme
+// @TODO (!important) publish to marketplace
+
 async function showInEditor(path: string, line: number) {
 	const file = await vscode.workspace.openTextDocument(vscode.Uri.file(path));
 	const editor = await vscode.window.showTextDocument(file, { preview: false });

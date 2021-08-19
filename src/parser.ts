@@ -46,7 +46,7 @@ export async function parseFile(filepath: string): Promise<ParseResult> {
 
         if (line.includes('!important')) {
             const item = new CustomTreeItem(
-                line.replace('// @TODO (!important)', '').trim(),
+                line.split('// @TODO (!important)')[1].trim(),
                 [],
                 index + 1,
                 { title: "Show in editor", command: 'todos.show', arguments: [filepath, index] }
@@ -54,7 +54,7 @@ export async function parseFile(filepath: string): Promise<ParseResult> {
             result.important.push(item);
         } else {
             const item = new CustomTreeItem(
-                line.replace('// @TODO', '').trim(),
+                line.split('// @TODO')[1].trim(),
                 [],
                 index + 1,
                 { title: "Show in editor", command: 'todos.show', arguments: [filepath, index] }
