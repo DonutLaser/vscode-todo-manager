@@ -2,7 +2,12 @@
 	"name": "todo-manager",
 	"displayName": "todo-manager",
 	"description": "",
+	"publisher": "DonutLaser",
 	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/DoutLaser/todo-manager.git"
+	},
 	"engines": {
 		"vscode": "^1.58.0"
 	},
