@@ -34,7 +34,7 @@ async function getAllFilesInWorkspace(workspace: string): Promise<string[]> {
     return result;
 }
 
-async function parseFile(filepath: string): Promise<ParseResult> {
+export async function parseFile(filepath: string): Promise<ParseResult> {
     const file = await vscode.workspace.fs.readFile(vscode.Uri.file(filepath));
     const str = new TextDecoder().decode(file);
     const lines = str.replace('\r', '').split('\n');

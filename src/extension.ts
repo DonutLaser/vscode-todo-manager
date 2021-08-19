@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { Event } from 'vscode';
 import { TodoProvider } from './todoProvider';
 import { parseTodos } from './parser';
 
